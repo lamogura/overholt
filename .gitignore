@@ -11,6 +11,7 @@ rcfile.*
 *#*
 *~*
 nosetests.xml
+venv/
 build/
 docs/_build
 *.backup*
