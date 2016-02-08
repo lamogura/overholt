@@ -9,7 +9,7 @@
 from flask import Blueprint, request
 
 from ..forms import NewStoreForm, UpdateStoreForm
-from ..services import stores as _stores, products as _products, users as _users
+from ..services import stores as _stores, products as _products
 # from ..tasks import send_manager_added_email, send_manager_removed_email
 from . import OverholtFormError, secured_route
 
@@ -79,17 +79,17 @@ def managers(store_id):
     return _stores.get_or_404(store_id).managers
 
 
-@secured_route(bp, '/<store_id>/managers/<user_id>', methods=['PUT'])
-def add_manager(store_id, user_id):
-    store, manager = _stores.add_manager(_stores.get_or_404(store_id),
-                                         _users.get_or_404(user_id))
-    # send_manager_added_email.delay(manager.email)
-    return store
+# @secured_route(bp, '/<store_id>/managers/<user_id>', methods=['PUT'])
+# def add_manager(store_id, user_id):
+#     store, manager = _stores.add_manager(_stores.get_or_404(store_id),
+#                                          _users.get_or_404(user_id))
+#     # send_manager_added_email.delay(manager.email)
+#     return store
 
 
-@secured_route(bp, '/<store_id>/managers/<user_id>', methods=['DELETE'])
-def remove_manager(store_id, user_id):
-    store, manager = _stores.remove_manager(_stores.get_or_404(store_id),
-                                            _users.get_or_404(user_id))
-    # send_manager_removed_email.delay(manager.email)
-    return None, 204
+# @secured_route(bp, '/<store_id>/managers/<user_id>', methods=['DELETE'])
+# def remove_manager(store_id, user_id):
+#     store, manager = _stores.remove_manager(_stores.get_or_404(store_id),
+#                                             _users.get_or_404(user_id))
+#     # send_manager_removed_email.delay(manager.email)
+#     return None, 204

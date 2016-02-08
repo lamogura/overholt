@@ -16,12 +16,6 @@ stores_products = db.Table(
     db.Column('store_id', db.Integer(), db.ForeignKey('stores.id')))
 
 
-stores_managers = db.Table(
-    'stores_managers',
-    db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
-    db.Column('store_id', db.Integer(), db.ForeignKey('stores.id')))
-
-
 class StoreJsonSerializer(JsonSerializer):
     pass
 
@@ -35,10 +29,6 @@ class Store(StoreJsonSerializer, db.Model):
     city = db.Column(db.String(255))
     state = db.Column(db.String(255))
     zip_code = db.Column(db.String(255))
-    manager_id = db.Column(db.ForeignKey('users.id'))
-
-    managers = db.relationship('User', secondary=stores_managers,
-                               backref=db.backref('stores', lazy='dynamic'))
 
     products = db.relationship('Product', secondary=stores_products,
                                backref=db.backref('stores', lazy='dynamic'))
