@@ -33,7 +33,18 @@ def create_app(settings_override=None, register_security_blueprint=False):
     return app
 
 
-def route(bp, *args, **kwargs):
+def secured_route(bp, *args, **kwargs):
+    """
+    Syntactic sugar decorator that calls passed blueprint with args
+    and also calls @login_required. 
+
+    param: bp: the blueprint instance
+    param: args: the args to passs to the blueprint
+    param: kwargs: the kwargs to passs to the blueprint
+
+    Useful if you want to add a multiple decorators to many blueprints
+    without having to repeat it for each route
+    """
     kwargs.setdefault('strict_slashes', False)
 
     def decorator(f):

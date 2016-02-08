@@ -10,18 +10,18 @@ from flask import Blueprint, request
 
 from ..forms import NewProductForm, UpdateProductForm
 from ..services import products
-from . import OverholtFormError, route
+from . import OverholtFormError, secured_route
 
 bp = Blueprint('products', __name__, url_prefix='/products')
 
 
-@route(bp, '/')
+@secured_route(bp, '/')
 def list():
     """Returns a list of product instances."""
     return products.all()
 
 
-@route(bp, '/', methods=['POST'])
+@secured_route(bp, '/', methods=['POST'])
 def create():
     """Creates a new product. Returns the new product instance."""
     form = NewProductForm()
@@ -30,13 +30,13 @@ def create():
     raise OverholtFormError(form.errors)
 
 
-@route(bp, '/<product_id>')
+@secured_route(bp, '/<product_id>')
 def show(product_id):
     """Returns a product instance."""
     return products.get_or_404(product_id)
 
 
-@route(bp, '/<product_id>', methods=['PUT'])
+@secured_route(bp, '/<product_id>', methods=['PUT'])
 def update(product_id):
     """Updates a product. Returns the updated product instance."""
     form = UpdateProductForm()
@@ -45,7 +45,7 @@ def update(product_id):
     raise(OverholtFormError(form.errors))
 
 
-@route(bp, '/<product_id>', methods=['DELETE'])
+@secured_route(bp, '/<product_id>', methods=['DELETE'])
 def delete(product_id):
     """Deletes a product. Returns a 204 response."""
     products.delete(products.get_or_404(product_id))

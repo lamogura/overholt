@@ -10,18 +10,18 @@ from flask import Blueprint
 from flask_login import current_user
 
 from ..services import users
-from . import route
+from . import secured_route
 
 bp = Blueprint('users', __name__, url_prefix='/users')
 
 
-@route(bp, '/')
+@secured_route(bp, '/')
 def whoami():
     """Returns the user instance of the currently authenticated user."""
     return current_user._get_current_object()
 
 
-@route(bp, '/<user_id>')
+@secured_route(bp, '/<user_id>')
 def show(user_id):
     """Returns a user instance."""
     return users.get_or_404(user_id)
